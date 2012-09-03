@@ -5,7 +5,9 @@ pygtk.require("2.0")
 
 import gtk
 import gtk.glade
+import gtk.gdk
 import travisParser
+import codecs
 
 
 class TravisCIUsername:
@@ -124,14 +126,35 @@ class ShowBuildLog:
         self.builder = gtk.Builder()
         self.builder.add_from_file("UI/showBuildLog.glade")
         self.builder.connect_signals(self)
+        self.buildID = buildID
 
         self.w = self.builder.get_object("window1")
         self.log = self.builder.get_object("logView")
+        self.log.modify_base(gtk.STATE_NORMAL, gtk.gdk.color_parse('black'))
+        self.log.modify_text(gtk.STATE_NORMAL, gtk.gdk.color_parse('white'))
         self.logBuffer = self.builder.get_object("logBuffer")
 
         job = travisParser.getRelatedJob(buildID, repo, owner)
         self.logBuffer.set_text(job['log'])
 
+
+    def on_backButton_clicked(self, widget):
+        self.w.hide()
+
+
+    def on_saveButton_clicked(self, widget):
+        self.saveDialog = gtk.FileChooserDialog(title="Save To File",action=gtk.FILE_CHOOSER_ACTION_SAVE, buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_SAVE,gtk.RESPONSE_OK))
+        self.saveDialog.set_current_name(str(self.buildID) + '.log')
+        self.saveDialog.set_do_overwrite_confirmation(True)
+
+        path = ""
+        if self.saveDialog.run() == gtk.RESPONSE_OK:
+            path = self.saveDialog.get_filename()
+            f = open(path, 'w')
+            f.write(str(self.logBuffer.get_text(self.logBuffer.get_start_iter(), self.logBuffer.get_end_iter())).rstrip("\r\n"))
+            f.close()
+
+        self.saveDialog.destroy()
 
 
 if __name__ == "__main__":
