@@ -4,16 +4,34 @@
   <!-- interface-naming-policy project-wide -->
   <object class="GtkListStore" id="buildsList">
     <columns>
-      <!-- column-name builds -->
+      <!-- column-name Repository -->
       <column type="gchararray"/>
-      <!-- column-name state -->
+      <!-- column-name Build -->
+      <column type="gint"/>
+      <!-- column-name Build1 -->
+      <column type="gint"/>
+      <!-- column-name State -->
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="jobsList"/>
+  <object class="GtkListStore" id="jobsList">
+    <columns>
+      <!-- column-name Repository -->
+      <column type="gchararray"/>
+      <!-- column-name Build -->
+      <column type="gint"/>
+      <!-- column-name Build1 -->
+      <column type="gint"/>
+      <!-- column-name State -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Travis-CI Tracker</property>
+    <property name="window_position">center</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
     <signal name="destroy-event" handler="gtk_main_quit" swapped="no"/>
     <child>
       <object class="GtkHBox" id="hbox1">
@@ -27,19 +45,31 @@
               <object class="GtkLabel" id="label1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="ypad">10</property>
                 <property name="label" translatable="yes">Builds list</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkTreeView" id="treeview1">
+              <object class="GtkScrolledWindow" id="scrolledBuilds">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="model">buildsList</property>
+                <property name="border_width">5</property>
+                <property name="hscrollbar_policy">never</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <property name="window_placement_set">True</property>
+                <child>
+                  <object class="GtkTreeView" id="treeBuildsList">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="model">buildsList</property>
+                    <property name="search_column">0</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -56,7 +86,7 @@
                 <property name="use_action_appearance">False</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
@@ -76,19 +106,30 @@
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Jobs list</property>
+                <property name="ypad">10</property>
+                <property name="label" translatable="yes">Running jobs</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkTreeView" id="treeview2">
+              <object class="GtkScrolledWindow" id="scrolledJobs">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="model">jobsList</property>
+                <property name="border_width">5</property>
+                <property name="hscrollbar_policy">never</property>
+                <property name="vscrollbar_policy">automatic</property>
+                <child>
+                  <object class="GtkTreeView" id="treeJobsList">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="model">jobsList</property>
+                    <property name="search_column">0</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -105,7 +146,7 @@
                 <property name="use_action_appearance">False</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
