@@ -68,7 +68,6 @@ class ShoWBuildsAndJobs():
         self._addColumn("Repository", 0, self.jobsTree)
         self._addColumn("Job ID", 1, self.jobsTree)
         self._addColumn("Job Number", 2, self.jobsTree)
-        self._addColumn("Status", 3, self.jobsTree)
         self.jobsList = self.builder.get_object("jobsList")
 
         for job in jobs:
@@ -97,7 +96,7 @@ class ShoWBuildsAndJobs():
         """
         Add a job to the tree view
         """
-        listview.append([job['repository'], int(job['id']), int(job['number']), job['status']])
+        listview.append([job['repository'], int(job['id']), float(job['number'])])
 
 
     def gtk_main_quit(self, widget):

@@ -20,10 +20,8 @@
       <column type="gchararray"/>
       <!-- column-name Build -->
       <column type="gint"/>
-      <!-- column-name Build1 -->
-      <column type="gint"/>
-      <!-- column-name State -->
-      <column type="gchararray"/>
+      <!-- column-name BuildNumber -->
+      <column type="gfloat"/>
     </columns>
   </object>
   <object class="GtkWindow" id="window1">

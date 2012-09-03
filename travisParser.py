@@ -38,6 +38,8 @@ def getBuildsAndJobs(_owner):
     # Build running jobs list
     for r in runningList:
         jobID = json.loads(urllib.urlopen(buildsShow.format(owner_name=_owner, name=r['repository'], id=r['id'])).read())['matrix'][0]['id']
-        jobsList.append(json.loads(urllib.urlopen(jobs.format(id = jobID)).read()))
+        job = json.loads(urllib.urlopen(jobsShow.format(id = jobID)).read())
+        job['repository'] = r['repository']
+        jobsList.append(job)
 
     return buildsList, jobsList
