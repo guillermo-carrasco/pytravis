@@ -43,3 +43,10 @@ def getBuildsAndJobs(_owner):
         jobsList.append(job)
 
     return buildsList, jobsList
+
+def getRelatedJob(buildID, repo, owner):
+    """
+    Return the job releted to the build <buildID> of the owner's <owner> repo <repo>
+    """
+    jobID = json.loads(urllib.urlopen(buildsShow.format(owner_name=owner, name=repo, id=buildID)).read())['matrix'][0]['id']
+    return json.loads(urllib.urlopen(jobsShow.format(id=jobID)).read())

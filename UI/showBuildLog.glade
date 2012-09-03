@@ -2,8 +2,13 @@
 <interface>
   <requires lib="gtk+" version="2.24"/>
   <!-- interface-naming-policy project-wide -->
+  <object class="GtkTextBuffer" id="logBuffer"/>
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Travis-CI Tracker</property>
+    <property name="window_position">center</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
@@ -15,8 +20,8 @@
             <property name="label" translatable="yes">Log</property>
           </object>
           <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -27,9 +32,11 @@
             <property name="hscrollbar_policy">automatic</property>
             <property name="vscrollbar_policy">automatic</property>
             <child>
-              <object class="GtkTextView" id="textview1">
+              <object class="GtkTextView" id="logView">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
+                <property name="buffer">logBuffer</property>
               </object>
             </child>
           </object>
@@ -73,7 +80,7 @@
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
           </packing>
