@@ -1,5 +1,6 @@
 import json
 import urllib
+import re
 
 
 class TravisManager:
@@ -51,3 +52,8 @@ class TravisManager:
         """
         jobID = json.loads(urllib.urlopen(self.buildsShow.format(owner_name=owner, name=repo, id=buildID)).read())['matrix'][0]['id']
         return json.loads(urllib.urlopen(self.jobsShow.format(id=jobID)).read())
+
+    def getFormattedLog(self, log):
+        """Return a log ready to be written to a file: Without control characters
+        """
+        return re.sub(r"(?m)^.*\r(?!$)", "", log).encode('utf8').replace('\r', '')
