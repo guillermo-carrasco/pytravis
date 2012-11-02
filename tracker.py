@@ -6,8 +6,8 @@ t = travis.TravisManager()
 
 def _getLog(owner, repo=None, jobID=None):
     """Save a log to a file. 
-        If repo and jobID are specified, then the log is directly saved to disk (if no errors). Otherwise, the program ask the user until
-        all the necessary information has been obtained.
+    If repo and jobID are specified, then the log is directly saved to disk (if no errors). Otherwise, the program ask the user until
+    all the necessary information has been obtained.
     """
 
 def _followLog():
