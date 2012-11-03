@@ -18,6 +18,11 @@ class TravisManager:
         self.jobs = self.urlBase + 'jobs.json'
         self.jobsShow = self.urlBase + 'jobs/{id}.json'
 
+    def getRepos(self, _owner):
+        """Return a list with the owner's repositories
+        """
+        return json.loads(urllib.urlopen(self.reposByOwner.format(owner = _owner)).read())
+
 
     def getBuildsAndJobs(self, _owner):
         """
