@@ -24,6 +24,12 @@ class TravisManager:
         return json.loads(urllib.urlopen(self.reposByOwner.format(owner = _owner)).read())
 
 
+    def getBuildList(self, _owner, _repo):
+        """Returns a list with all the builds for the _owner's  _repo
+        """
+        return json.loads(urllib.urlopen(self.builds.format(owner_name=_owner, name=_repo)).read())
+
+
     def getBuildsAndJobs(self, _owner):
         """
         Returns a list with all the owner's builds
@@ -51,7 +57,7 @@ class TravisManager:
 
         return buildsList, jobsList
 
-    def getRelatedJob(self, buildID, repo, owner):
+    def getRelatedJob(self, owner, repo, buildID):
         """
         Return the job releted to the build <buildID> of the owner's <owner> repo <repo>
         """
