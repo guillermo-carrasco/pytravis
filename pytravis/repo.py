@@ -1,13 +1,12 @@
 import requests
+import pytravis.build
 
-base_url = "https://api.travis-ci.org/"
-repos_url = base_url + "/repos/"
 
 class Repo(object):
     """Represents a repository in Travis-CI
     """
     def __init__(self, id):
-        r = requests.get(repos_url + str(id))
+        r = requests.get("https://api.travis-ci.org/repos/%s" % str(id))
         if r.status_code != requests.status_codes.codes.OK:
             raise AttributeError("ERROR: Repository with id %s not found!" % str(id))
         self._properties = r.json()
@@ -60,3 +59,12 @@ class Repo(object):
     def slug(self):
         return self._properties['slug']
     
+    def _get_builds(self):
+        """Obtain the list of builds for that repository.
+        """
+
+
+    def get_builds(self):
+        """Obtain the list of builds for that repository.
+        """
+        return getattr(self, 'builds', self._get_builds())
