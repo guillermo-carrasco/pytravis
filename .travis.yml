@@ -8,5 +8,9 @@ branches:
         - master
         - develop
 
-script: 
-    - nosetests -v
+install: python setup-py install
+
+script: nosetests -v
+
+notifications:
+    email: false
