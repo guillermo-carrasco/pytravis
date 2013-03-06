@@ -8,7 +8,7 @@ branches:
         - master
         - develop
 
-install: python setup-py install
+install: python setup.py install
 
 script: nosetests -v
 
