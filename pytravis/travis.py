@@ -9,7 +9,8 @@ class Repo(object):
     """
     def __init__(self, id):
         self._id = id
-        self.update()
+        if not self.update():
+            raise AttributeError("Repository with id %s not found!" % str(self._id))
 
     def update(self):
         """Update information of the repository.
@@ -17,8 +18,8 @@ class Repo(object):
         Update information of the repository: Builds, last builds, etc.
         """
         r = requests.get(REPOS_URI + str(self._id))
-        if not r.status_code == requests.status_codes.codes.OK:
-            raise AttributeError("ERROR: Repository with id %s not found!" % str(self._id))
+        if r.headers['content-type'] == 'image/png':
+            return False
 
         properties = r.json()
         self.description = properties['description']
@@ -37,6 +38,7 @@ class Repo(object):
 
         builds = requests.get(REPOS_URI + self.slug + "/builds").json()
         self.builds_list = dict((b['id'], b) for b in builds)
+        return True
 
 
     def get_builds(self):
@@ -58,7 +60,7 @@ class Build(object):
         b = requests.get(BUILDS_URI + str(self.id))
         if b.status_code != requests.status_codes.codes.OK:
             raise AttributeError("ERROR: Build with id %s not found!" % str(self.id))
-        
+
         properties = b.json()
         self.status = properties['status']
         self.repository_id = properties['repository_id']
