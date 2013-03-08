@@ -8,12 +8,11 @@ class TestPytravisObjects(unittest.TestCase):
 
     def setUp(self):
     	self.pytravis_id = '488730'
-    	self.pytravis__build_id = '5278830'
+    	self.pytravis_build_id = '5278830'
 
     def tests_repo(self):
     	"""Test Repo class
     	"""
-
     	try:
     		r = travis.Repo(0)
     	except Exception as ex:
@@ -29,18 +28,19 @@ class TestPytravisObjects(unittest.TestCase):
     def test_builds(self):
     	"""Test Build class
     	"""
-
     	try:
     		b = travis.Build(-1)
     	except Exception as ex:
     		self.assertEqual('AttributeError', type(ex).__name__)
+
+    	b = travis.Build(self.pytravis_build_id)
+    	self.assertIsInstance(b, travis.Build)
 
     	#Test a build with a matrix!
 
 class TestUtils(unittest.TestCase):
 	"""Test pytrtavis utils
 	"""
-	
 	def setUp(self):
 		self.owner = 'guillermo-carrasco'
 

@@ -12,7 +12,6 @@ class Repo(object):
 
         :cache_builds: If True, a Build object is created for each build
         """
-
         self._id = id
         r = requests.get(REPOS_URI + str(self._id))
         if r.headers['content-type'] == 'image/png':
@@ -41,7 +40,7 @@ class Repo(object):
                 self.builds.append(Build(b))
         else:
             self.builds = builds_dict
-            
+
 
 
 class Build(object):
