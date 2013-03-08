@@ -1,15 +1,29 @@
 import requests
+from prettytable import PrettyTable
 import tty
 
 from pytravis import REPOS_BY_OWNER
 
+def get_repos_by_owner(owner):
+    """Return a list of repos by owner
+    """
+    repos = requests.get(REPOS_BY_OWNER + str(owner)).json()
+    if not repos:
+        raise AttributeError("ERROR: Username %s not found!" % str(owner))
+    return repos
+
 def list_repos_by_owner(owner):
-	"""Return a list with the owner's repositories.
-	"""
-	repos = requests.get(REPOS_BY_OWNER + str(owner)).json()
-	if not repos:
-		raise AttributeError("ERROR: Username %s not found!" % str(owner))
-	return 
+    """Print and return a list with the owner's repositories.
+    """
+    repos = get_repos_by_owner(owner)
+    x = PrettyTable(['Name', 'ID', 'Last build ID'])
+    x.align['Name'] = 'l'
+    x.align['Description'] = 'l'
+    for r in repos:                                        
+        row = []
+        [row.append(r[field]) for field in ['slug', 'id', 'last_build_id']]
+        x.add_row(row)
+    print x
 	
 
 def less(text, num_lines = 100):

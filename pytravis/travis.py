@@ -7,19 +7,16 @@ from pytravis import REPOS_URI, BUILDS_URI
 class Repo(object):
     """Represents a repository in Travis-CI
     """
-    def __init__(self, id):
-        self._id = id
-        if not self.update():
-            raise AttributeError("Repository with id %s not found!" % str(self._id))
+    def __init__(self, id, cache_builds=False):
+        """Creates a repository object with all tha attributes returned by the API
 
-    def update(self):
-        """Update information of the repository.
-
-        Update information of the repository: Builds, last builds, etc.
+        :cache_builds: If True, a Build object is created for each build
         """
+
+        self._id = id
         r = requests.get(REPOS_URI + str(self._id))
         if r.headers['content-type'] == 'image/png':
-            return False
+            raise AttributeError("Repository with id %s not found!" % str(self._id))
 
         properties = r.json()
         self.description = properties['description']
@@ -37,14 +34,14 @@ class Repo(object):
 
 
         builds = requests.get(REPOS_URI + self.slug + "/builds").json()
-        self.builds_list = dict((b['id'], b) for b in builds)
-        return True
-
-
-    def get_builds(self):
-        """Obtain the list of builds for that repository.
-        """
-        return self.builds_list
+        builds_dict = dict((b['id'], b) for b in builds)
+        if cache_builds:
+            self.builds = []
+            for b in builds_dict.iterkeys():
+                self.builds.append(Build(b))
+        else:
+            self.builds = builds_dict
+            
 
 
 class Build(object):
@@ -52,15 +49,10 @@ class Build(object):
     """
     def __init__(self, id):
         self.id = id
-        self.update()
-
-    def update(self):
-        """Updates information of the build
-        """
         b = requests.get(BUILDS_URI + str(self.id))
-        if b.status_code != requests.status_codes.codes.OK:
+        if b.headers['content-type'] == 'image/png':
             raise AttributeError("ERROR: Build with id %s not found!" % str(self.id))
-
+         
         properties = b.json()
         self.status = properties['status']
         self.repository_id = properties['repository_id']
@@ -74,7 +66,7 @@ class Build(object):
         self.compare_url = properties['compare_url']
         self.committed_at = properties['committed_at']
         self.state = properties['state']
-        relf.result = properties['result']
+        self.result = properties['result']
         self.branch = properties['branch']
         self.duration = properties['duration']
         self.commit = properties['commit']
