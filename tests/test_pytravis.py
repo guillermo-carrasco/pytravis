@@ -8,7 +8,8 @@ class TestPytravisObjects(unittest.TestCase):
 
     def setUp(self):
     	self.pytravis_id = '488730'
-    	self.pytravis_build_id = '5278830'
+    	self.pytravis_build_id = '5383366'
+        self.job_id = '5383367'
 
     def tests_repo(self):
     	"""Test Repo class
@@ -20,10 +21,12 @@ class TestPytravisObjects(unittest.TestCase):
 
         r = travis.Repo(self.pytravis_id)
         self.assertIsInstance(r, travis.Repo)
+        self.assertIsInstance(r.last_build, travis.Build)
         self.assertEqual(type(r.builds), dict)
         self.assertNotEqual(len(r.builds), 0)
         r = travis.Repo(self.pytravis_id, cache_builds=True)
         self.assertIsInstance(r.builds[0], travis.Build)
+
 
     def test_builds(self):
     	"""Test Build class
@@ -35,8 +38,16 @@ class TestPytravisObjects(unittest.TestCase):
 
     	b = travis.Build(self.pytravis_build_id)
     	self.assertIsInstance(b, travis.Build)
+        for job in b.matrix:
+            self.assertIsInstance(job, travis.Job)
+        self.assertEqual(b.jobs, 2)
 
-    	#Test a build with a matrix!
+
+    def test_log(self):
+        """Test Log class
+        """
+        
+
 
 class TestUtils(unittest.TestCase):
 	"""Test pytrtavis utils
