@@ -101,7 +101,7 @@ class Log(object):
     """
     def __init__(self, id, repository_id):
         req = requests.get(LOG_URI.format(job_id=id))
-        if req.status_code == 404:
+        if req.status_code == requests.status_codes.codes.NOT_FOUND:
             raise AttributeError("A Job with this id does not exist")
         self.id = id
         self.content = req.content

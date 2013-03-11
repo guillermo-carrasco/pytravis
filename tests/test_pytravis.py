@@ -1,4 +1,5 @@
 import unittest
+import os
 from pytravis import travis, utils
 
 
@@ -7,9 +8,9 @@ class TestPytravisObjects(unittest.TestCase):
     """
 
     def setUp(self):
-    	self.pytravis_id = '488730'
-    	self.pytravis_build_id = '5383366'
-        self.job_id = '5383367'
+    	self.valid_repo_id = '488730'
+    	self.valid_build_id = '5383366'
+        self.valid_job_id = '5383367'
 
     def tests_repo(self):
     	"""Test Repo class
@@ -19,12 +20,12 @@ class TestPytravisObjects(unittest.TestCase):
     	except Exception as ex:
         	self.assertEqual('AttributeError', type(ex).__name__)
 
-        r = travis.Repo(self.pytravis_id)
+        r = travis.Repo(self.valid_repo_id)
         self.assertIsInstance(r, travis.Repo)
         self.assertIsInstance(r.last_build, travis.Build)
         self.assertEqual(type(r.builds), dict)
         self.assertNotEqual(len(r.builds), 0)
-        r = travis.Repo(self.pytravis_id, cache_builds=True)
+        r = travis.Repo(self.valid_repo_id, cache_builds=True)
         self.assertIsInstance(r.builds[0], travis.Build)
 
 
@@ -36,7 +37,7 @@ class TestPytravisObjects(unittest.TestCase):
     	except Exception as ex:
     		self.assertEqual('AttributeError', type(ex).__name__)
 
-    	b = travis.Build(self.pytravis_build_id)
+    	b = travis.Build(self.valid_build_id)
     	self.assertIsInstance(b, travis.Build)
         for job in b.matrix:
             self.assertIsInstance(job, travis.Job)
@@ -46,7 +47,33 @@ class TestPytravisObjects(unittest.TestCase):
     def test_log(self):
         """Test Log class
         """
-        
+        try:
+            l = travis.Log('-1', self.valid_repo_id)
+        except Exception as ex:
+            self.assertEqual('AttributeError', type(ex).__name__)
+
+        l = travis.Log(self.valid_job_id, self.valid_repo_id)
+        self.assertIsInstance(l, travis.Log)
+
+        #Test different combinations of saving a log file
+        logname = 'guillermo-carrasco_pytravis_' + self.valid_job_id + '.log'
+        home_dir = os.environ['HOME']
+
+        l.save()
+        l.save(filename='test_filename')
+        l.save(dest=home_dir)
+        l.save(filename='test_filename', dest=home_dir)
+
+        self.assertTrue(os.path.exists(logname))
+        self.assertTrue(os.path.exists('test_filename'))
+        self.assertTrue(os.path.exists(os.path.join(home_dir, logname)))
+        self.assertTrue(os.path.exists(os.path.join(home_dir, 'test_filename')))
+
+        #Remove created test files
+        os.remove(logname)
+        os.remove('test_filename')
+        os.remove(os.path.join(home_dir, logname))
+        os.remove(os.path.join(home_dir, 'test_filename'))
 
 
 class TestUtils(unittest.TestCase):
