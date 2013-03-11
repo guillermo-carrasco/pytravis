@@ -1,0 +1,16 @@
+language: python
+
+python:
+    - 2.7
+
+branches:
+    only:
+        - master
+        - develop
+
+install: python setup.py install
+
+script: nosetests -v
+
+notifications:
+    email: false

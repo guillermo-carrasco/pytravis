@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.1'
+version = '0.3'
 
 setup(name='pytravis',
       version=version,
@@ -18,7 +18,8 @@ Python wrapper for Travis-CI API. Set of scripts to get information from travis.
       include_package_data=True,
       zip_safe=True,
       install_requires=[
-          'requests'
+          'requests',
+          'prettytable'
       ],
       entry_points="""
       # -*- Entry points: -*-
