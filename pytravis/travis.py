@@ -15,7 +15,7 @@ class Repo(object):
         """
         self._id = id
         r = requests.get(REPOS_URI + str(self._id))
-        if r.headers['content-type'] == 'image/png':
+        if r.status_code == requests.codes.NOT_FOUND:
             raise AttributeError("Repository with id %s not found!" % str(self._id))
 
         properties = r.json()
@@ -51,7 +51,7 @@ class Build(object):
     def __init__(self, id):
         self.id = id
         b = requests.get(BUILDS_URI + str(self.id))
-        if b.headers['content-type'] == 'image/png':
+        if b.status_code == requests.codes.NOT_FOUND:
             raise AttributeError("ERROR: Build with id %s not found!" % str(self.id))
          
         properties = b.json()
