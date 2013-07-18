@@ -2,12 +2,12 @@ import requests
 from prettytable import PrettyTable
 import tty
 
-from pytravis import REPOS_BY_OWNER
+from pytravis import repos_by_owner
 
 def get_repos_by_owner(owner):
     """Return a list of repos by owner
     """
-    repos = requests.get(REPOS_BY_OWNER + str(owner)).json()
+    repos = requests.get(repos_by_owner + str(owner)).json()
     if not repos:
         raise AttributeError("ERROR: Username %s not found!" % str(owner))
     return repos

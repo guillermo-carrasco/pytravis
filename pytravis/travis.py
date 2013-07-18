@@ -2,7 +2,7 @@ import sys
 import os
 import requests
 
-from pytravis import REPOS_URI, BUILDS_URI, LOG_URI
+from pytravis import repos_uri, builds_uri, log_uri
 
 
 class Repo(object):
@@ -14,7 +14,7 @@ class Repo(object):
         :cache_builds: If True, a Build object is created for each build
         """
         self._id = id
-        r = requests.get(REPOS_URI + str(self._id))
+        r = requests.get(repos_uri + str(self._id))
         if r.status_code == requests.codes.NOT_FOUND:
             raise AttributeError("Repository with id %s not found!" % str(self._id))
 
@@ -33,11 +33,11 @@ class Repo(object):
         self.public_key = properties['public_key']
         self.slug = properties['slug']
 
-        builds = requests.get(REPOS_URI + self.slug + "/builds").json()
+        builds = requests.get(repos_uri + self.slug + "/builds").json()
         self.builds_dict = dict((b['id'], b) for b in builds)
         if cache_builds:
             self.builds = []
-            for b in builds_dict.iterkeys():
+            for b in self.builds_dict.iterkeys():
                 self.builds.append(Build(b))
             self.builds_cached = True
         else:
@@ -53,13 +53,12 @@ class Repo(object):
                 self.builds.append(Build(b))
 
 
-
 class Build(object):
     """Represents a build in Travis-CI.
     """
     def __init__(self, id):
         self.id = id
-        b = requests.get(BUILDS_URI + str(self.id))
+        b = requests.get(builds_uri + str(self.id))
         if b.status_code == requests.codes.NOT_FOUND:
             raise AttributeError("ERROR: Build with id %s not found!" % str(self.id))
          
@@ -109,7 +108,7 @@ class Log(object):
     """Represents a log and some functionalities
     """
     def __init__(self, id, repository_id):
-        req = requests.get(LOG_URI.format(job_id=id))
+        req = requests.get(log_uri.format(job_id=id))
         if req.status_code == requests.status_codes.codes.NOT_FOUND:
             raise AttributeError("A Job with this id does not exist")
         self.id = id
@@ -135,4 +134,4 @@ class Log(object):
     def update(self):
         """Updates the content the Log
         """
-        self.content = requests.get(LOG_URI.format(job_id=id)).content
+        self.content = requests.get(log_uri.format(job_id=id)).content

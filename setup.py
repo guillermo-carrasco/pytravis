@@ -21,7 +21,5 @@ Python wrapper for Travis-CI API. Set of scripts to get information from travis.
           'requests',
           'prettytable'
       ],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
+      data_files=[(os.environ['HOME'], ['config/.pytravisrc'])]
       )

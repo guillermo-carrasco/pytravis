@@ -2,7 +2,6 @@ import unittest
 import os
 from pytravis import travis, utils
 
-
 class TestPytravisObjects(unittest.TestCase):
     """Test pytravis classes
     """
