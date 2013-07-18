@@ -64,7 +64,7 @@ Out[5]: 0 #Which is the OK linux exit code ;-)
 
 ####Listing the repositories of a user
 <p align="center">
-  <img src="https://raw.github.com/guillermo-carrasco/pytravis/master/config/repos_info.png" height="700" width="500" alt="Pipeline overview"/>
+  <img src="https://raw.github.com/guillermo-carrasco/pytravis/master/config/repos_info.png" height="756" width="666" alt="Pipeline overview"/>
 </p>
 
 [o1]: https://travis-ci.org
