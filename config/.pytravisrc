@@ -1,0 +1,8 @@
+[URI]
+base_url: https://api.travis-ci.org/
+repos_uri: repos/
+repos_by_owner: repos.json?owner_name=
+builds_uri: builds/
+log_uri: jobs/{job_id}/log.txt?deansi=true
+auth_github: auth/github
+auth_handshake: auth/handshake
