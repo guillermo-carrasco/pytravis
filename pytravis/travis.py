@@ -33,15 +33,24 @@ class Repo(object):
         self.public_key = properties['public_key']
         self.slug = properties['slug']
 
-
         builds = requests.get(REPOS_URI + self.slug + "/builds").json()
-        builds_dict = dict((b['id'], b) for b in builds)
+        self.builds_dict = dict((b['id'], b) for b in builds)
         if cache_builds:
             self.builds = []
             for b in builds_dict.iterkeys():
                 self.builds.append(Build(b))
+            self.builds_cached = True
         else:
-            self.builds = builds_dict
+            self.builds = self.builds_dict
+            self.builds_cached = False
+
+    def cache_builds(self):
+        """Cache all the builds.
+        """
+        if not self.builds_cached:
+            self.builds = []
+            for b in builds_dict.iterkeys():
+                self.builds.append(Build(b))
 
 
 
