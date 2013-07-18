@@ -6,6 +6,9 @@ information from Tracis-CI.
 
 **Current build status**: [![Build Status](https://travis-ci.org/guillermo-carrasco/pytravis.png?branch=master)](https://travis-ci.org/guillermo-carrasco/pytravis)
 
+_DISCLAIMER_: This project is still under development. Contributions are
+very welcome :-)
+
 ##Usage
 Pytravis gets the necessary information from a configuration file located in the
 user's home directory. The file should be named ```.pytravisrc```. A minimal configuration
