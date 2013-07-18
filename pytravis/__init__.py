@@ -5,6 +5,8 @@ import os
 
 #Load all mutable-like information from configuration files
 conf_file = os.path.join(os.environ["HOME"], ".pytravisrc")
+gh_token = False
+auth_token = False
 if os.path.exists(conf_file):
     conf = ConfigParser.ConfigParser()
     conf.read(conf_file)
@@ -18,6 +20,7 @@ if os.path.exists(conf_file):
         repos_by_owner = base_url + urls.get("repos_by_owner")
         auth_github = base_url + urls.get("auth_github")
         auth_handshake = base_url + urls.get("auth_handshake")
+        users_uri = base_url + urls.get("users_uri")
 
     except ConfigParser.NoSectionError:
         raise RuntimeError("The configuration file doesn't seem to contain the \

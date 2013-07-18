@@ -2,8 +2,28 @@ import sys
 import os
 import requests
 
-from pytravis import repos_uri, builds_uri, log_uri
+from pytravis import repos_uri, builds_uri, log_uri, users_uri, gh_token, auth_token
 
+class User(object):
+    """Represents a user in Travis-CI
+    """
+    def __init__(self):
+        if not gh_token:
+            raise RuntimeError("Cannot create a User object without authenticating")
+        r = requests.get(users_uri, params=auth_token)
+        if r.status_code == requests.codes.NOT_FOUND:
+            raise AttributeError("Could not create User object")
+
+        properties = r.json()
+        self.email = properties['email']
+        self.gravatar_id = properties['gravatar_id']
+        self.is_syncing = properties['is_syncing']
+        self.locale = properties['locale']
+        self.login = properties['login']
+        self.name = properties['name']
+        self.synced_at = properties['synced_at']
+
+    #TODO: Add functions to get user info: repos, builds, etc...
 
 class Repo(object):
     """Represents a repository in Travis-CI

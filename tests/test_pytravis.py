@@ -1,6 +1,6 @@
 import unittest
 import os
-from pytravis import travis, utils
+from pytravis import travis, utils, gh_token
 
 class TestPytravisObjects(unittest.TestCase):
     """Test pytravis classes
@@ -11,7 +11,14 @@ class TestPytravisObjects(unittest.TestCase):
     	self.valid_build_id = '5383366'
         self.valid_job_id = '5383367'
 
-    def tests_repo(self):
+    @unittest.skipUnless(gh_token, "No github token")
+    def test_user(self):
+        """Test User class
+        """
+        u = travis.User()
+        self.assertIsInstance(u, travis.User)
+
+    def test_repo(self):
     	"""Test Repo class
     	"""
     	try:

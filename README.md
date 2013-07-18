@@ -9,7 +9,7 @@ information from Tracis-CI.
 ##Usage
 Pytravis gets the necessary information from a configuration file located in the
 user's home directory. The file should be named ```.pytravisrc```. A minimal configuration
-file is installed with pytravis containing the API endpoints:
+file containing the API endpoints is installed with pytravis:
 
 ```
 [URI]
@@ -32,7 +32,7 @@ there:
 
 ```
 [Auth]
-github-token: __your_token_here___
+github-token: your_token_here
 ```
 
 **NOTE**: You can use pytravis without authentication, but you'll be able to access
