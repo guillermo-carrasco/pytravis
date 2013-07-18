@@ -4,7 +4,7 @@ for a lot of languages.
 **pytravis** provides an API wrapper for python and a set of utilities to get common
 information from Tracis-CI.
 
-**Current build status**: [![Build Status](https://travis-ci.org/guillermo-carrasco/pytravis.png?branch=develop)](https://travis-ci.org/guillermo-carrasco/pytravis)
+**Current build status**: [![Build Status](https://travis-ci.org/guillermo-carrasco/pytravis.png?branch=master)](https://travis-ci.org/guillermo-carrasco/pytravis)
 
 ##Usage
 Pytravis gets the necessary information from a configuration file located in the
