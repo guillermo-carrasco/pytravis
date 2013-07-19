@@ -9,6 +9,14 @@ information from Tracis-CI.
 _DISCLAIMER_: This project is still under development. Contributions are
 very welcome :-)
 
+##Installation
+I'll upload pytravis to PyPi when it becomes a bit more mature. You can install it
+using the GitHub address meanwhile:
+
+```
+pip install git+git://github.com/guillermo-carrasco/pytravis.git
+```
+
 ##Configuration
 Pytravis gets the necessary information from a configuration file located in the
 user's home directory. The file should be named ```.pytravisrc```. A minimal configuration
