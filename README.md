@@ -1,3 +1,5 @@
+### **NOTE**: This repository has been discontinued in favour of the [official Travis CLI](https://github.com/travis-ci/travis.rb)
+
 [Travis-CI][o1] is a hosted continuous integration service for the open source community. It is integrated with GitHub and offers first class support 
 for a lot of languages.
 
